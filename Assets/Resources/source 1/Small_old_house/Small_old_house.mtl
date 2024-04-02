@@ -1,0 +1,47 @@
+# Blender 3.5.0 MTL File: 'Small_old_house.blend'
+# www.blender.org
+
+newmtl LADDER
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures/ladder/Ladder_BaseColor.png
+map_Ns textures/ladder/Ladder_Roughness.png
+map_refl D:/Blender/Downloads/uploads_files_2149756_Muddy_Texture/Muddy_Texture/2K/Ladder_Metallic.png
+map_Bump -bm 1.000000 textures/ladder/Ladder_Normal.png
+
+newmtl Material.001
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures/bench/Bench_color.png
+map_Ns textures/bench/Bench_roughness.png
+map_Bump -bm 1.000000 textures/bench/Bench_normal.png
+
+newmtl Material.002
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures/ground_color.png
+map_Ns textures/ground_roughness.png
+map_Bump -bm 3.400000 textures/ground_normal.png
+
+newmtl Small_old_house_baked
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd textures/house/Small_old_house_color.png
+map_Bump -bm 1.000000 textures/house/Small_old_house_normal.png
