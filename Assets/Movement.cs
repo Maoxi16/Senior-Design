@@ -13,7 +13,7 @@ public class Movement : MonoBehaviour
     public float airControl = 0.5f;
 
     [Space]
-    public float jumpHeight = 30f;
+    public float jumpHeight = 0.1f;
 
 
     private Vector2 input;
@@ -43,66 +43,78 @@ public class Movement : MonoBehaviour
     private void OnTriggerStay(Collider other){
         grounded = true;
     }
-    // void FixedUpdate()
-    // {
-    //     if(grounded){
-    //         if(jumping){
-    //             rb.velocity = new Vector3(rb.velocity.x,jumpHeight,rb.velocity.z);
-    //         }
-    //         else if(input.magnitude > 0.5f){
-    //         rb.AddForce(CalculateMovement(sprinting? sprintSpeed:walkSpeed),ForceMode.VelocityChange);
-    //     }
-    //     else{
-    //         var velocity1 = rb.velocity;
-    //         velocity1 =new Vector3(velocity1.x*0.2f*Time.fixedDeltaTime,velocity1.y,velocity1.z*0.2f*Time.fixedDeltaTime);
-    //         rb.velocity = velocity1;
-    //     }
-    //     }
-    //     else{
-    //         if(input.magnitude > 0.5f){
-    //         rb.AddForce(CalculateMovement(sprinting? sprintSpeed*airControl:walkSpeed*airControl),ForceMode.VelocityChange);
-    //     }
-    //     else{
-    //         var velocity1 = rb.velocity;
-    //         velocity1 =new Vector3(velocity1.x*0.2f*Time.fixedDeltaTime,velocity1.y,velocity1.z*0.2f*Time.fixedDeltaTime);
-    //         rb.velocity = velocity1;
-    //     }
-    //     }
-
-    //     grounded = false;   
-        
     
-    // }
-    void FixedUpdate()
-{
-    if(grounded){
-        if(jumping){
-            // Calculate the force needed to achieve the desired jump height
-            float g = Physics.gravity.y; // Gravity is negative in Unity
-            float jumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(g) * jumpHeight);
-            Vector3 jumpVector = new Vector3(0, jumpVelocity, 0);
+//     
+// void FixedUpdate()
+// {
+//     if(grounded){
+//         if(jumping){
+//             // Calculate the force needed to achieve the desired jump height
+//             float g = Physics.gravity.y; // Gravity is negative in Unity
+//             float desiredJumpHeight = jumpHeight; // You can adjust this value in the Inspector to find a suitable jump height
+//             float jumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(g) * desiredJumpHeight);
+            
+//             // Optional: Apply a multiplier to reduce jump height further if needed
+//             float jumpVelocityMultiplier = 0.7f; // Adjust this value as needed to tweak jump height
+//             jumpVelocity *= jumpVelocityMultiplier;
 
-            // Apply the calculated force to achieve the desired jump height
-            rb.AddForce(jumpVector, ForceMode.VelocityChange);
+//             Vector3 jumpVector = new Vector3(0, jumpVelocity, 0);
+
+//             // Apply the calculated force to achieve the desired jump height
+//             rb.AddForce(jumpVector, ForceMode.VelocityChange);
+//         }
+//         else if(input.magnitude > 0.5f){
+//             rb.AddForce(CalculateMovement(sprinting ? sprintSpeed : walkSpeed), ForceMode.VelocityChange);
+//         }
+//         else {
+//             ApplyAirResistance();
+//         }
+//     }
+//     else{
+//         if(input.magnitude > 0.5f){
+//             rb.AddForce(CalculateMovement(sprinting ? sprintSpeed * airControl : walkSpeed * airControl), ForceMode.VelocityChange);
+//         }
+//         else{
+//             ApplyAirResistance();
+//         }
+//     }
+
+//     grounded = false;   
+// }
+void FixedUpdate()
+{
+    if (grounded)
+    {
+        if (jumping)
+        {
+            // Directly apply a force for jumping
+            float jumpForce = 100f; // Start with a value and adjust as necessary
+            rb.AddForce(0, jumpForce, 0);
         }
-        else if(input.magnitude > 0.5f){
+        else if (input.magnitude > 0.5f)
+        {
             rb.AddForce(CalculateMovement(sprinting ? sprintSpeed : walkSpeed), ForceMode.VelocityChange);
         }
-        else {
+        else
+        {
             ApplyAirResistance();
         }
     }
-    else{
-        if(input.magnitude > 0.5f){
+    else
+    {
+        if (input.magnitude > 0.5f)
+        {
             rb.AddForce(CalculateMovement(sprinting ? sprintSpeed * airControl : walkSpeed * airControl), ForceMode.VelocityChange);
         }
-        else{
+        else
+        {
             ApplyAirResistance();
         }
     }
 
-    grounded = false;
+    grounded = false;   
 }
+
 
 void ApplyAirResistance() {
     var velocity = rb.velocity;
