@@ -9,20 +9,37 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public AudioListener myAudioListener;
     public GameObject Player;
     [Space]
-    public Transform spawnpoint;
+    public Transform[] spawnpoints;
 
     [Space]
 
     public GameObject roomCam;
     // Start is called before the first frame update
+    [Space]
+    public GameObject nameUI;
+    public GameObject connectionUI;
+    public string nickname = "unnamed";
     void Awake(){
         instance = this;
     }
+
+    public  void ChangeNickName(string _name){
+        nickname = _name;
+
+    }
+    public void JoinRoomButtonPressed(){
+    Debug.Log("Button Pressed: Attempting to connect...");
+    PhotonNetwork.ConnectUsingSettings();
+
+    nameUI.SetActive(false);
+    connectionUI.SetActive(true);
+}
+
     void Start()
     {
-        Debug.Log(" Connect ...");
+        // Debug.Log(" Connect ...");
 
-        PhotonNetwork.ConnectUsingSettings();
+        // PhotonNetwork.ConnectUsingSettings();
         
     }
 
@@ -58,16 +75,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
 
     public void spawnPlayer(){
+
+         Transform spawnpoint = spawnpoints[UnityEngine.Random.Range(0,spawnpoints.Length)];
          GameObject _player = PhotonNetwork.Instantiate(Player.name,spawnpoint.position,Quaternion.identity);
+    
          _player.GetComponent<Health>().islocalPlayer = true;
-    }
 
+         _player.GetComponent<PhotonView>().RPC("setnickname",RpcTarget.AllBuffered,nickname);
+         PhotonNetwork.LocalPlayer.NickName=nickname;
 
-
-
-
-
-
-
-
-}
+}}
