@@ -20,6 +20,8 @@ public class Leaderboard : MonoBehaviour
     public TextMeshProUGUI[] scoreTexts;
     public TextMeshProUGUI[] nameTexts;
 
+    public TextMeshProUGUI[] KDTexts;
+
     private void Start(){
         InvokeRepeating(nameof(Refresh),1f,refreshRate);
     }
@@ -43,6 +45,14 @@ public class Leaderboard : MonoBehaviour
 
                 nameTexts[i].text = player.NickName;
                 scoreTexts[i].text = player.GetScore().ToString();
+
+if(player.CustomProperties.ContainsKey("kills") && player.CustomProperties.ContainsKey("deaths")){
+            int kills = (int) player.CustomProperties["kills"];
+            int deaths = (int) player.CustomProperties["deaths"];
+            KDTexts[i].text = kills.ToString() + "/" + deaths.ToString();
+        } else {
+            KDTexts[i].text = "0/0";
+        }
 
                 i++; 
         

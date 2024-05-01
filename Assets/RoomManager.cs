@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class RoomManager : MonoBehaviourPunCallbacks
 {
     public static RoomManager instance;
@@ -19,6 +19,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public GameObject nameUI;
     public GameObject connectionUI;
     public string nickname = "unnamed";
+
+    
+
+    public string roomNameToJoin = "test";
+  [HideInInspector]
+
+    public int kills = 0;
+   [HideInInspector]
+    public int deaths = 0;
     void Awake(){
         instance = this;
     }
@@ -30,39 +39,41 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public void JoinRoomButtonPressed(){
     Debug.Log("Button Pressed: Attempting to connect...");
     PhotonNetwork.ConnectUsingSettings();
+    PhotonNetwork.JoinOrCreateRoom(roomNameToJoin,null,null);
+
 
     nameUI.SetActive(false);
     connectionUI.SetActive(true);
 }
 
-    void Start()
-    {
-        // Debug.Log(" Connect ...");
+    // void Start()
+    // {
+    //     // Debug.Log(" Connect ...");
 
-        // PhotonNetwork.ConnectUsingSettings();
+    //     // PhotonNetwork.ConnectUsingSettings();
         
-    }
+    // }
 
-    public override void OnConnectedToMaster()
-    {
-        base.OnConnectedToMaster();
+    // public override void OnConnectedToMaster()
+    // {
+    //     base.OnConnectedToMaster();
 
-        Debug.Log("Connected to Server");
+    //     Debug.Log("Connected to Server");
         
-        PhotonNetwork.JoinLobby();
-    }
+    //     PhotonNetwork.JoinLobby();
+    // }
 
-    public override void OnJoinedLobby()
-    {
-        base.OnJoinedLobby();
+    // public override void OnJoinedLobby()
+    // {
+    //     base.OnJoinedLobby();
 
         
 
-        Debug.Log("We are in the lobby");
-        PhotonNetwork.JoinOrCreateRoom("test",null,null);
+    //     Debug.Log("We are in the lobby");
+    //     PhotonNetwork.JoinOrCreateRoom(roomNameToJoin,null,null);
 
 
-    }
+    // }
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
@@ -84,4 +95,17 @@ public class RoomManager : MonoBehaviourPunCallbacks
          _player.GetComponent<PhotonView>().RPC("setnickname",RpcTarget.AllBuffered,nickname);
          PhotonNetwork.LocalPlayer.NickName=nickname;
 
-}}
+}
+public void SetHash(){
+        try{
+            Hashtable hash = PhotonNetwork.LocalPlayer.CustomProperties;
+            hash["kills"]= kills;
+            hash["deaths"]=deaths;
+            
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+    }
+    catch{
+        //do nothing
+    }
+}
+}
